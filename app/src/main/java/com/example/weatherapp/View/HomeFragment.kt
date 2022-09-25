@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         intiPage(view)
         if (WeatherController.permissionDeniedOrNot) {
-
             WeatherController.getData(onDone = {
                 if (it != null) {
 
@@ -63,7 +62,7 @@ class HomeFragment : Fragment() {
             PermissionDenied(WeatherController.permissionDeniedOrNot)
         }
         requestPermissiom.setOnClickListener() {
-            val intent=Intent(activity,MainPage::class.java)
+            val intent=Intent(view.context,MainPage::class.java)
             startActivity(intent)
 //            val mainPage = MainPage()
 //            mainPage.requestPermission()
@@ -143,6 +142,7 @@ class HomeFragment : Fragment() {
 
 
     private fun intiPage(view: View) {
+        println("odeh was here")
         recycleView = view.findViewById(R.id.RecycleViewHomePage)
         recycleView.layoutManager = LinearLayoutManager(context)
 

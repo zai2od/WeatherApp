@@ -71,10 +71,24 @@ class MainPage : AppCompatActivity() {
 
             } else {
                 //setting open here
-
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
                 finish()
+               if(isLocationEnabled()){
+                   fusedLocationProviderClient.lastLocation.addOnCompleteListener {
+
+                       val location: Location? = it.result
+                       if (location != null) {
+                           WeatherController.permissionDeniedOrNot = true
+                           WeatherController.q = "${location.latitude}" + "," + "${location.longitude}"
+                           supportFragmentManager.beginTransaction().apply {
+                               replace(R.id.nav_host_fragment, HomeFragment())
+                               commit()
+                           }
+                       }
+
+                   }
+               }
 
             }
         } else {
@@ -93,6 +107,7 @@ class MainPage : AppCompatActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ), PERMISSION_ACCESS_REQUEST
         )
+        return
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -105,11 +120,11 @@ class MainPage : AppCompatActivity() {
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION
             ) ==
             PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) ==
             PackageManager.PERMISSION_GRANTED
         ) {
@@ -120,12 +135,13 @@ class MainPage : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        permissions: Array<String>, grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_ACCESS_REQUEST) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            ) {
                 getCurrentLocation()
             } else {
                 WeatherController.permissionDeniedOrNot = false
@@ -138,5 +154,10 @@ class MainPage : AppCompatActivity() {
         return
     }
 
+    override fun onRestart() {
+        super.onRestart()
+    }
 
 }
+
+
