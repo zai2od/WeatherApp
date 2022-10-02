@@ -11,6 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object WeatherController {
+    var latLocation=""
+    var longLocation=""
     const val API_KEY = "fbff809070b8440d930104713222109"
     var q = ""
     var permissionDeniedOrNot=false

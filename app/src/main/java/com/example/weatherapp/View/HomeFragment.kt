@@ -1,15 +1,15 @@
 package com.example.weatherapp.View
 
 import android.content.Intent
+import android.location.Location
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +43,11 @@ class HomeFragment : Fragment() {
     private lateinit var arrowUpImage: ImageView
     private lateinit var arrowDownImage: ImageView
     private lateinit var requestPermissiom: Button
+    private lateinit var locationIcon: ImageButton
+
+    companion object {
+        var waitForEverythingToFinish = false
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +59,6 @@ class HomeFragment : Fragment() {
         if (WeatherController.permissionDeniedOrNot) {
             WeatherController.getData(onDone = {
                 if (it != null) {
-
                     getEveryThingTogether(it)
                 }
             })
@@ -62,18 +66,26 @@ class HomeFragment : Fragment() {
             PermissionDenied(WeatherController.permissionDeniedOrNot)
         }
         requestPermissiom.setOnClickListener() {
-            val intent=Intent(view.context,MainPage::class.java)
+            val intent = Intent(view.context, MainPage::class.java)
             startActivity(intent)
+            activity?.finish()
 //            val mainPage = MainPage()
 //            mainPage.requestPermission()
 //    PermissionDenied(WeatherController.permissionDeniedOrNot)
 
         }
+        locationIcon.setOnClickListener() {
+            val intent = Intent(activity, GoogleMapActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
         return view
     }
 
-    private fun PermissionDenied(permission:Boolean) {
-        if(!permission) {
+    private fun PermissionDenied(permission: Boolean) {
+        if (!permission) {
             locationText.text = "Need Permission To Continue"
             requestPermissiom.visibility = View.VISIBLE
             temp_Status.visibility = View.INVISIBLE
@@ -88,7 +100,7 @@ class HomeFragment : Fragment() {
             arrowUpImage.visibility = View.INVISIBLE
             arrowDownImage.visibility = View.INVISIBLE
 
-        }else{
+        } else {
             WeatherController.getData(onDone = {
                 if (it != null) {
 
@@ -125,18 +137,19 @@ class HomeFragment : Fragment() {
 
         weatherData.current?.let {
             temp_Status.text = it.tempC.toString()
-            windSpeedText.text = it.windKph.toString()
+            windSpeedText.text = it.windKph.toString() + "kph"
             textStatus.text = it.condition?.text
         }
 
         weatherData.forecast?.let {
             if (it.forecastday.isNotEmpty()) {
-                minTempText.text = it.forecastday[0].day?.mintempC.toString()
-                maxTempText.text = it.forecastday[0].day?.maxtempC.toString()
+                minTempText.text = it.forecastday[0].day?.mintempC.toString() + "c"
+                maxTempText.text = it.forecastday[0].day?.maxtempC.toString() + "c"
             }
             recyclerAdapter = HomeRecycleAdapter(it.forecastday[0].hour)
             recycleView.adapter = recyclerAdapter
         }
+        waitForEverythingToFinish = true
 
     }
 
@@ -153,6 +166,7 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
         )
+        locationIcon = view.findViewById(R.id.locationIconHomePageFragment)
         requestPermissiom = view.findViewById(R.id.buttonRequestPermission)
         linearLayoutRecycleView = view.findViewById(R.id.linearForRecycleHomePage)
         windImage = view.findViewById(R.id.windIconHomeFragment)

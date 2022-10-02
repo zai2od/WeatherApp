@@ -44,7 +44,7 @@
                     android:id="@+id/locationTextHomeFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Amman-Jordan"
+                    tools:text="Amman-Jordan"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:text="Text Status"
+                    tools:text="Text Status"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -70,7 +70,7 @@
                     android:id="@+id/temp_statusTextHomeFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="temp_c status"
+                    tools:text="temp_c status"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -94,7 +94,7 @@
                     android:id="@+id/dateTextHomeFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wen,21 Sep"
+                    tools:text="Wen,21 Sep"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
 
@@ -112,7 +112,7 @@
                 android:id="@+id/ImageHomeFragment"
                 android:layout_width="150dp"
                 android:layout_height="100dp"
-                android:src="@drawable/sun" />
+                 />
         </LinearLayout>
     </RelativeLayout>
 
@@ -190,17 +190,33 @@
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Forecast"
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Forecast"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            <ImageButton
+                android:id="@+id/locationIconHomePageFragment"
+                android:src="@drawable/location_icon"
+                android:background="@color/white"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="30dp"
+                />
 
+
+
+</RelativeLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecycleViewHomePage"
             android:layout_width="match_parent"
