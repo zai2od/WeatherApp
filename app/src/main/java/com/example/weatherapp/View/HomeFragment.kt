@@ -47,6 +47,7 @@ class HomeFragment : Fragment() {
 
     companion object {
         var waitForEverythingToFinish = false
+        lateinit var weatherobj:WeatherData
     }
 
     override fun onCreateView(
@@ -125,7 +126,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getEveryThingTogether(weatherData: WeatherData) {
-
+weatherobj=weatherData
         weatherData.location?.let {
             locationText.text = it.region + "-" + it.name
             val localTime = it.localtime ?: return@let

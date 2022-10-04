@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.weatherapp.Controller.WeatherController
 import com.example.weatherapp.R
 import com.google.android.gms.common.api.ResolvableApiException
@@ -26,7 +27,7 @@ import java.util.*
 
 
 class MainPage : AppCompatActivity() {
-
+lateinit var swip:SwipeRefreshLayout
     lateinit var progressBar: ProgressBar
 
     companion object {
@@ -39,10 +40,16 @@ class MainPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        swip = findViewById(R.id.swipeMainPage)
         progressBar = findViewById(R.id.progressBarMainActivity)
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        swip.setOnRefreshListener {
+            Handler().postDelayed( {
+                getCurrentLocation()
+                swip.isRefreshing = false
+            }, 2000)
+        }
         getCurrentLocation()
-
     }
 
 
@@ -151,7 +158,6 @@ class MainPage : AppCompatActivity() {
         )
         return
     }
-
     fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager =
             getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -199,7 +205,7 @@ class MainPage : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if (isLocationEnabled() && checkPermissions() ) {
+        if (isLocationEnabled() && checkPermissions()) {
 
             if (ActivityCompat.checkSelfPermission(
                     this,
@@ -226,7 +232,10 @@ class MainPage : AppCompatActivity() {
                     }
                 }
 
-            }}
+            }}else if(!isLocationEnabled() && checkPermissions()){
+            val intent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivityForResult(intent, LOCATION)
+        }
     }
 //
 //    override fun onResume() {
