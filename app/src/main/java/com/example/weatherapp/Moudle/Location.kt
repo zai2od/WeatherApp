@@ -10,6 +10,5 @@ data class Location(
     @SerializedName("lat") var lat: Double? = null,
     @SerializedName("lon") var lon: Double? = null,
     @SerializedName("tz_id") var tzId: String? = null,
-    @SerializedName("localtime_epoch") var localtimeEpoch: Int? = null,
     @SerializedName("localtime") var localtime: String? = null
 )
