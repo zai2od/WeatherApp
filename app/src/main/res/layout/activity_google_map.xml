@@ -14,11 +14,11 @@
         android:layout_height="match_parent"
         tools:context=".View.GoogleMapActivity" />
 
-    <ImageView
-        android:id="@+id/img_marker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        map:srcCompat="@drawable/location2_icon"
-        />
+<!--    <ImageView-->
+<!--        android:id="@+id/img_marker"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        map:srcCompat="@drawable/location2_icon"-->
+<!--        />-->
 </RelativeLayout>

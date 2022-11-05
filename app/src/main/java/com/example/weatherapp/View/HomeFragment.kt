@@ -44,10 +44,12 @@ class HomeFragment : Fragment() {
     private lateinit var arrowDownImage: ImageView
     private lateinit var requestPermissiom: Button
     private lateinit var locationIcon: ImageButton
+    private lateinit var progressBarHomeFragment: ProgressBar
+    private lateinit var progressBarHomeFragment2: ProgressBar
 
     companion object {
         var waitForEverythingToFinish = false
-        lateinit var weatherobj:WeatherData
+        lateinit var weatherobj: WeatherData
     }
 
     override fun onCreateView(
@@ -56,10 +58,17 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        progressBarHomeFragment=view.findViewById(R.id.progressBarHomeFragment)
+        progressBarHomeFragment2=view.findViewById(R.id.progressBarHomeFragment2)
         intiPage(view)
         if (WeatherController.permissionDeniedOrNot) {
+            progressBarHomeFragment.visibility=View.VISIBLE
+            progressBarHomeFragment2.visibility=View.VISIBLE
             WeatherController.getData(onDone = {
                 if (it != null) {
+                  
+                    progressBarHomeFragment.visibility=View.INVISIBLE
+                    progressBarHomeFragment2.visibility=View.INVISIBLE
                     getEveryThingTogether(it)
                 }
             })
@@ -126,7 +135,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getEveryThingTogether(weatherData: WeatherData) {
-weatherobj=weatherData
+        weatherobj = weatherData
         weatherData.location?.let {
             locationText.text = it.region + "-" + it.name
             val localTime = it.localtime ?: return@let

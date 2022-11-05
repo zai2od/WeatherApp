@@ -11,13 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object WeatherController {
-    lateinit var dataForGoogleMap:WeatherData
-    var latLocation=""
-    var longLocation=""
+    lateinit var dataForGoogleMap: WeatherData
+    var latLocation = ""
+    var longLocation = ""
     const val API_KEY = "0410c38c3e464360806201234220510"
     var q = ""
-    var permissionDeniedOrNot=false
-    fun getData(onDone: (WeatherData?)->Unit) {
+    var permissionDeniedOrNot = false
+    fun getData(onDone: (WeatherData?) -> Unit) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.weatherapi.com/v1/")
             .addConverterFactory(GsonConverterFactory.create()).build()
@@ -45,12 +45,12 @@ object WeatherController {
 
 
     }
-    fun getData2(q:String,onDone: (WeatherData?)->Unit){
+
+    fun getData2(q: String, onDone: (WeatherData?) -> Unit) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.weatherapi.com/v1/")
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(WeatherApiInterface::class.java)
-
         val retrofitAPI = retrofit.getWeatherData(
             API_KEY,
             q

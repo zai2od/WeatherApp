@@ -16,6 +16,13 @@
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <ProgressBar
+            android:id="@+id/progressBarHomeFragment"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+           />
 
         <Button
             android:id="@+id/buttonRequestPermission"
@@ -217,6 +224,13 @@
 
 
 </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progressBarHomeFragment2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="visible"
+            android:layout_centerInParent="true"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecycleViewHomePage"
             android:layout_width="match_parent"

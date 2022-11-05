@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.Moudle.Hour
 import com.example.weatherapp.R
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HomeRecycleAdapter(var weatherData: ArrayList<Hour>) :
@@ -31,9 +34,10 @@ class HomeRecycleAdapter(var weatherData: ArrayList<Hour>) :
     override fun onBindViewHolder(holder: ViewHolders, position: Int) {
         Picasso.get().load("https:"+weatherData[position].condition?.icon).into(holder.imageItem)
         holder.tempItem.text=weatherData[position].tempC.toString()
-        holder.timeItem.text=weatherData[position].time?.subSequence(11,16)
+        val date: Date = SimpleDateFormat("hh:mm").parse(weatherData[position].time?.subSequence(11,16).toString())
+        val newDate: String = SimpleDateFormat("h:mm a").format(date)
+        holder.timeItem.text=newDate
         holder.textItem.text=weatherData[position].condition?.text
-
     }
 
 
